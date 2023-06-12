@@ -8,30 +8,33 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 ctx.fillStyle = "#000";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
-// ctx.clearColor(0.0, 0.0, 0.0, 1.0);
-// ctx.clear(ctx.COLOR_BUFFER_BIT);
+
 var keyStates = ['false', 'false', 'false', 'false'];
-var px=200, py=200;
+var px=100, py=200;
+
+var threeDimcanv = document.getElementById("canvas2");
+var ctxTwo = threeDimcanv.getContext("2d");
 
 
 
 function drawPlayer(x,y) {
     let pi = Math.PI;
     switch (String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3] + x + y + pa)) {
-        case String("truefalsefalsefalse" + x + y + pa) : px+=Math.cos(pa), py-=Math.sin(pa); break;
-        case String("falsetruefalsefalse" + x + y + pa) : px-=Math.cos(pa), py+=Math.sin(pa); break;
-        case String("falsefalsetruefalse" + x + y + pa) : pa+=.05; break;
-        case String("falsefalsefalsetrue" + x + y + pa) : pa-=.05; break;
-        case String("truefalsetruefalse" + x + y + pa) : pa+=.05; px+=Math.cos(pa), py-=Math.sin(pa); break;
-        case String("truefalsefalsetrue" + x + y + pa) : pa-=.05; px+=Math.cos(pa), py-=Math.sin(pa); break;
+        case String("truefalsefalsefalse" + x + y + pa) : px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
+        case String("falsetruefalsefalse" + x + y + pa) : px-=Math.cos(pa)*2, py+=Math.sin(pa)*2; break;
+        case String("falsefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; break;
+        case String("falsefalsefalsetrue" + x + y + pa) : pa-=.05; if(pa<0)   {pa += 2*pi}; break;
+        case String("truefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
+        case String("truefalsefalsetrue" + x + y + pa) : pa-=.05; if(pa<0)   {pa += 2*pi}; px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
 
     }
     
     drawMap();
+    ctxTwo.fillStyle = "#000";
+    ctxTwo.fillRect(0, 0, canvas.width, canvas.height);
     //console.log(px+'\n'+py+'\n'+pa);
 
 }
-let godSpeed = 0;
 function loadTick() {
     console.log('hit');
     document.addEventListener('keydown', function(event) {
@@ -54,7 +57,6 @@ function loadTick() {
 
 
 function advanceTick() {
-    godSpeed = godSpeed += 1;
     //console.log(String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3]))
     drawPlayer(px, py);
 }
