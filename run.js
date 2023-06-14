@@ -50,7 +50,7 @@ function loadTick() {
         else if (event.code == 'KeyD') {console.log(); keyStates[3] = 'false'}});
     
     if (runStatus == false) {
-        setInterval(advanceTick ,33);
+        setInterval(advanceTick , 33);
     }
     runStatus = true;
 }
@@ -59,5 +59,6 @@ function loadTick() {
 function advanceTick() {
     //console.log(String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3]))
     drawPlayer(px, py);
+    lines();
 }
 // console.log(String(godSpeed + '\n' + 'sec: ' + (Math.floor(godSpeed/30)) + ' | ' + Math.floor(godSpeed / (godSpeed/30)) + '\n' + ctx));

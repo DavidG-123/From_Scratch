@@ -18,10 +18,6 @@ const MAP = [
     1,1,1,1,1,1,1,1,1,1
 ]
 
-function drawLines(){
-    setInterval(lines, 33);
-};
-
 
 function genMap(map) {
     let mapYflip = [];
