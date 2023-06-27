@@ -71,7 +71,7 @@ function distance(ax, ay, bx, by, ang){
 
 function lines(){
     let x = px+4, y = py+4, a = pa, degree = 0.0174533;
-    let rae = pa-(30*degree), r=0, rx = .0, ry = .0, yo = 0, xo = 0, mx=0, my=0, mp=0, dof=0;
+    let rae = pa-(30*(degree)), r=0, rx = .0, ry = .0, yo = 0, xo = 0, mx=0, my=0, mp=0, dof=0;
     if (rae<0){rae+=2*pi} if (rae>2*pi){rae-=2*pi}
     let yinv = (640-y);
     let Xendpoint = 0;
@@ -137,11 +137,16 @@ function lines(){
         fulldist= (fulldist*Math.cos(fixedAng));
         let rectHeight = (mapA*480)/fulldist; if(rectHeight>480){rectHeight=480}
         let vertOffset = 240-rectHeight/2
-
-        ctxTwo.fillRect((480-r*8)-8, vertOffset, 8, rectHeight)
+        
+        let ty = 0, ty_step = (rectHeight/32);
+        for(v=0; v<32; v++) {
+            let c = bit_textures[v];
+            if(Number.isInteger(r/2)) {c = bit_textures[0][v]}
+            else {c = bit_textures[v]}
+            ctxTwo.fillStyle = "#" + String(c) + String(c) + String(c)
+            ctxTwo.fillRect((480-r*8)-8, vertOffset+ty, 8, rectHeight/32)
+            ty += ty_step;
+        }
         rae += degree; if (rae<0){rae+=2*pi} if (rae>2*pi){rae-=2*pi}
     }
-    
-
-
 }
