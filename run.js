@@ -1,7 +1,7 @@
 WebGL2RenderingContext
 var runStatus = false;
 var linesTrue = false;
-var pa = (2.15);
+var pa = (4);
 var fullDir = 2 * Math.PI;
 
 const canvas = document.getElementById("canvas");
@@ -10,18 +10,18 @@ ctx.fillStyle = "#000";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var keyStates = ['false', 'false', 'false', 'false'];
-var px=546, py=549;
+var px=100, py=200;
 
-const threeDimcanv = document.getElementById("canvas2");
-const ctxTwo = threeDimcanv.getContext("2d");
+var threeDimcanv = document.getElementById("canvas2");
+var ctxTwo = threeDimcanv.getContext("2d");
 
 
 
 function drawPlayer(x,y) {
     let pi = Math.PI;
     switch (String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3] + x + y + pa)) {
-        case String("truefalsefalsefalse" + x + y + pa) : px+=Math.cos(pa)*4, py-=Math.sin(pa)*4; break;
-        case String("falsetruefalsefalse" + x + y + pa) : px-=Math.cos(pa)*4, py+=Math.sin(pa)*4; break;
+        case String("truefalsefalsefalse" + x + y + pa) : px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
+        case String("falsetruefalsefalse" + x + y + pa) : px-=Math.cos(pa)*2, py+=Math.sin(pa)*2; break;
         case String("falsefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; break;
         case String("falsefalsefalsetrue" + x + y + pa) : pa-=.05; if(pa<0)   {pa += 2*pi}; break;
         case String("truefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
@@ -55,9 +55,11 @@ function loadTick() {
     runStatus = true;
 }
 
-
+var frame = 0;
 function advanceTick() {
     //console.log(String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3]))
+    frame++
+    if (frame==30 || frame > 30){frame=0};
     drawPlayer(px, py);
     lines();
 }
