@@ -12,8 +12,8 @@ ctx.fillRect(0, 0, canvas.width, canvas.height);
 var keyStates = ['false', 'false', 'false', 'false'];
 var px=546, py=549;
 
-var threeDimcanv = document.getElementById("canvas2");
-var ctxTwo = threeDimcanv.getContext("2d");
+const threeDimcanv = document.getElementById("canvas2");
+const ctxTwo = threeDimcanv.getContext("2d");
 
 
 
