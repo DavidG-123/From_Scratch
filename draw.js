@@ -1,23 +1,21 @@
 WebGL2RenderingContext
 
-const mapX = 10, mapY = 10, mapA = 100;
 const pi = Math.PI;
 const rad = (Math.PI*2);
 var fulldist = 0;
 
-const MAP = [
+var premapBits = [
     1,1,1,1,1,1,1,1,1,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,0,0,0,0,1,
-    1,0,0,1,0,1,0,0,0,1,
-    1,0,0,0,0,1,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
+    1,0,0,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,1,1
 ]
-
 
 function genMap(map) {
     let mapYflip = [];
@@ -39,8 +37,8 @@ function drawMap() {
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#f00"
-    ctx.fillRect(px, py, 9, 9);
+    // ctx.fillStyle = "#f00"
+    // ctx.fillRect(px, py, 9, 9);
 
     ctx.fillStyle = "#fff";
     let x = 0, y = 0, n =0;
@@ -70,7 +68,7 @@ function distance(ax, ay, bx, by, ang){
 }
 
 function lines(){
-    let x = px+4, y = py+4, a = pa, degree = 0.0174533;
+    let x = px, y = py, a = pa, degree = 0.0174533;
     let rae = pa-(30*degree), r=0, rx = .0, ry = .0, yo = 0, xo = 0, mx=0, my=0, mp=0, dof=0;
     if (rae<0){rae+=2*pi} if (rae>2*pi){rae-=2*pi}
     let yinv = (640-y);
@@ -83,8 +81,8 @@ function lines(){
         ctx.strokeStyle = "#f0f";
         
         ctx.beginPath();
-        ctx.moveTo(x, py+4);
-        ctx.lineTo(x + Math.cos(pa)*25, (py+4) - (Math.sin(pa)*25));
+        ctx.moveTo(x, py);
+        ctx.lineTo(x + Math.cos(pa)*25, (py) - (Math.sin(pa)*25));
         ctx.stroke();
     }
     //frames
@@ -132,11 +130,11 @@ function lines(){
 
         if (vertdist<horizondist) {rx=vx; ry=vy; fulldist=vertdist;    shade = .5;}
         if (horizondist<vertdist) {rx=hx; ry=hy; fulldist=horizondist;}
-        ctx.strokeStyle = "#f00";
-        ctx.beginPath();
-        ctx.moveTo(x, py+4);
-        ctx.lineTo(rx, 640-ry);
-        ctx.stroke();
+        //ctx.strokeStyle = "#f00";
+        //ctx.beginPath();
+        //ctx.moveTo(x, py);
+        //ctx.lineTo(rx, 640-ry);
+        //ctx.stroke();
 
         //3-d projection |
         //               v
@@ -154,8 +152,13 @@ function lines(){
         let ty = ty_offset*ty_step;
         let tx = 0;
 
-        if(rx == vx){tx = Math.floor(ry/4)%32}
-        else {tx = Math.floor(rx/4)%32}
+        if(rx == vx){tx = Math.floor(ry/4)%32
+        if (rae > (pi/2) && rae < (pi/2 + pi)){tx = 31-tx}
+        }
+        else {tx = Math.floor(rx/4)%32;
+        if (rae > 0 && rae < pi){tx = (31-tx);}
+        }
+
 
         
         let c = String();
@@ -172,7 +175,4 @@ function lines(){
         }
         rae += degree; if (rae<0){rae+=2*pi} if (rae>2*pi){rae-=2*pi};
     }
-    
-
-
 }

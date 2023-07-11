@@ -1,7 +1,7 @@
 WebGL2RenderingContext
 var runStatus = false;
 var linesTrue = false;
-var pa = (4);
+var pa = (3.2);
 var fullDir = 2 * Math.PI;
 
 const canvas = document.getElementById("canvas");
@@ -10,7 +10,7 @@ ctx.fillStyle = "#000";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 var keyStates = ['false', 'false', 'false', 'false'];
-var px=100, py=200;
+var px=490, py=334;
 
 var threeDimcanv = document.getElementById("canvas2");
 var ctxTwo = threeDimcanv.getContext("2d");
@@ -18,21 +18,24 @@ var ctxTwo = threeDimcanv.getContext("2d");
 
 
 function drawPlayer(x,y) {
-    let pi = Math.PI;
+    let deltaX = Math.cos(pa)*2; let deltaY = Math.sin(pa)*2;
+    let fspx = Math.floor((px+(deltaX*10))/64); let fspy = Math.floor((py-(deltaY*10))/64);
+    let spxNeg = Math.floor((px-(deltaX*4))/64); let spyNeg = Math.floor((py+(deltaY*4))/64);
+    let intX = Math.floor(px/64); let intY = Math.floor(py/64);
     switch (String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3] + x + y + pa)) {
-        case String("truefalsefalsefalse" + x + y + pa) : px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
-        case String("falsetruefalsefalse" + x + y + pa) : px-=Math.cos(pa)*2, py+=Math.sin(pa)*2; break;
-        case String("falsefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; break;
-        case String("falsefalsefalsetrue" + x + y + pa) : pa-=.05; if(pa<0)   {pa += 2*pi}; break;
-        case String("truefalsetruefalse" + x + y + pa) : pa+=.05; if(pa>2*pi){pa -= 2*pi}; px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
-        case String("truefalsefalsetrue" + x + y + pa) : pa-=.05; if(pa<0)   {pa += 2*pi}; px+=Math.cos(pa)*2, py-=Math.sin(pa)*2; break;
-
+        case String("truefalsefalsefalse" + x + y + pa) : if (premapBits[(mapX*intY) + fspx] == 0){px+=deltaX}; if (premapBits[((fspy)*mapX) + intX] == 0){py-=deltaY}; break;
+        case String("falsetruefalsefalse" + x + y + pa) : if (premapBits[(mapX*intY) + spxNeg] == 0){px-=deltaX}; if (premapBits[((spyNeg)*mapX) + intX] == 0){py+=deltaY}; break;
+        case String("falsefalsetruefalse" + x + y + pa) : pa+=.075; if(pa>2*pi){pa -= 2*pi}; break;
+        case String("falsefalsefalsetrue" + x + y + pa) : pa-=.075; if(pa<0)   {pa += 2*pi}; break;
+        case String("truefalsetruefalse" + x + y + pa) : pa+=.075; if(pa>2*pi){pa -= 2*pi}; if (premapBits[(mapX*intY) + fspx] == 0){px+=deltaX}; if (premapBits[((fspy)*mapX) + intX] == 0){py-=deltaY}; break;
+        case String("truefalsefalsetrue" + x + y + pa) : pa-=.075; if(pa<0)   {pa += 2*pi}; if (premapBits[(mapX*intY) + fspx] == 0){px+=deltaX}; if (premapBits[((fspy)*mapX) + intX] == 0){py-=deltaY}; break;
     }
     
     drawMap();
     ctxTwo.fillStyle = "#000";
     ctxTwo.fillRect(0, 0, canvas.width, canvas.height);
-    //console.log(px+'\n'+py+'\n'+pa);
+    
+    document.getElementById('playerStats').innerHTML = String(Math.round(px)+'<br>'+Math.round(640-py)+'<br>'+pa.toFixed(2)+'<br>'+String((mapX*intY) + fspx)+'<br>'+String((fspy*mapX) + intX));
 
 }
 function loadTick() {
@@ -57,10 +60,8 @@ function loadTick() {
 
 var frame = 0;
 function advanceTick() {
-    //console.log(String(keyStates[0] + keyStates[1] + keyStates[2] + keyStates[3]))
     frame++
     if (frame==30 || frame > 30){frame=0};
     drawPlayer(px, py);
     lines();
 }
-// console.log(String(godSpeed + '\n' + 'sec: ' + (Math.floor(godSpeed/30)) + ' | ' + Math.floor(godSpeed / (godSpeed/30)) + '\n' + ctx));
