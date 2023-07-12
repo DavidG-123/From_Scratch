@@ -97,6 +97,7 @@ function lines(){
         let ntan = -(Math.tan(rae));
         let halfpi = Math.PI/2;
         let threequartpi = (3*Math.PI/2);
+        let wallVal = [];
         if (rae>pi) {ry =((Math.floor(yinv)>>6)<<6)-0.0001; rx=(yinv-ry)*atan+x; yo=-64, xo=-yo*atan}
         if (rae<pi) {ry =((Math.floor(yinv)>>6)<<6)+64;     rx=(yinv-ry)*atan+x; yo= 64, xo=-yo*atan}
         if (rae==0 || rae==pi) {rx=x; ry=py; dof=8}
@@ -145,6 +146,8 @@ function lines(){
         let ty_step = 32/rectHeight;
         let ty_offset = 0;
 
+        
+
         if(rectHeight>480){ty_offset = (rectHeight-480)/4; rectHeight=480};
         let vertOffset = 240-rectHeight/2;
         //determine texture
@@ -158,6 +161,7 @@ function lines(){
         else {tx = Math.floor(rx/4)%32;
         if (rae > 0 && rae < pi){tx = (31-tx);}
         }
+        ty+=16;
 
 
         
