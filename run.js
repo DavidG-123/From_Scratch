@@ -35,7 +35,7 @@ function drawPlayer(x,y) {
     ctxTwo.fillStyle = "#000";
     ctxTwo.fillRect(0, 0, canvas.width, canvas.height);
     
-    document.getElementById('playerStats').innerHTML = String(Math.round(px)+'<br>'+Math.round(640-py)+'<br>'+pa.toFixed(2)+'<br>'+String((mapX*intY) + fspx)+'<br>'+String((fspy*mapX) + intX));
+    document.getElementById('playerStats').innerHTML = String(Math.round(px)+"<br>"+Math.round(640-py)+"<br>"+pa.toFixed(2)+"<br>"+String((mapX*intY) + fspx)+"<br>"+String((fspy*mapX) + intX));
 
 }
 function loadTick() {

@@ -18,4 +18,3 @@ function preMap(bits) {
     }
     return(yInvert);
 }
-const MAP = preMap(premapBits);
